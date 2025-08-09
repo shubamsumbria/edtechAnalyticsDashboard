@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdTech Learning Analytics Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body data-color-scheme="dark">
+    <!-- Header Section -->
+    <header class="dashboard-header">
+        <div class="container">
+            <h1>EdTech Learning Analytics Dashboard</h1>
+            <p class="header-subtitle">Comprehensive insights into online learning patterns and user engagement</p>
+        </div>
+    </header>
+
+    <!-- KPI Cards -->
+    <section class="kpi-section">
+        <div class="container">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-icon">👥</div>
+                    <div class="kpi-content">
+                        <h3>46</h3>
+                        <p>Total Learners</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">✅</div>
+                    <div class="kpi-content">
+                        <h3>10.9%</h3>
+                        <p>Completion Rate</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">⏰</div>
+                    <div class="kpi-content">
+                        <h3>7 days</h3>
+                        <p>Avg Drop-off Time</p>
+                    </div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-icon">📊</div>
+                    <div class="kpi-content">
+                        <h3>12.6%</h3>
+                        <p>Industry Median</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+        <div class="container">
+            <div class="filters-row">
+                <select id="ageFilter" class="form-control">
+                    <option value="">All Age Groups</option>
+                    <option value="18-24">18-24</option>
+                    <option value="25-34">25-34</option>
+                </select>
+                <select id="occupationFilter" class="form-control">
+                    <option value="">All Occupations</option>
+                    <option value="Student">Student</option>
+                    <option value="Employed full-time">Employed full-time</option>
+                    <option value="Unemployed">Unemployed</option>
+                    <option value="Freelancer">Freelancer</option>
+                </select>
+                <select id="platformFilter" class="form-control">
+                    <option value="">All Platforms</option>
+                    <option value="YouTube educational content">YouTube</option>
+                    <option value="Coursera">Coursera</option>
+                    <option value="Udemy">Udemy</option>
+                    <option value="edX">edX</option>
+                </select>
+                <input type="text" id="searchInput" class="form-control" placeholder="Search data...">
+                <div class="export-group">
+                    <button id="exportCSV" class="btn btn--primary">Export CSV</button>
+                    <button id="exportJSON" class="btn btn--secondary">Export JSON</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tab Navigation -->
+    <nav class="tabs-nav">
+        <div class="container">
+            <div class="tabs-list">
+                <button class="tab-button active" data-tab="overview">Overview</button>
+                <button class="tab-button" data-tab="behavior">User Behavior</button>
+                <button class="tab-button" data-tab="insights">Platform Insights</button>
+                <button class="tab-button" data-tab="research">Industry Research</button>
+                <button class="tab-button" data-tab="community">Community Insights</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Tab Content -->
+    <main class="dashboard-main">
+        <div class="container">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <!-- Key Insights & Recommendations Section -->
+                <div class="key-insights-section">
+                    <h2>Key Insights & Recommendations</h2>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <h4>📈 Critical Findings</h4>
+                            <ul id="overviewInsights">
+                                <li>Critical first-week retention challenge: 30.4% of learners drop out within the first week, making this the most crucial intervention point</li>
+                                <li>YouTube dominance signals shift: 45.7% prefer YouTube over traditional platforms, indicating demand for more flexible, video-centric learning</li>
+                                <li>Gamification leads feature requests: 25 mentions make it the top desired feature, showing clear demand for engagement mechanics</li>
+                                <li>Completion crisis confirmed: Only 10.9% completion rate aligns with industry medians, validating widespread retention challenges</li>
+                            </ul>
+                        </div>
+                        <div class="insight-card">
+                            <h4>🎯 Strategic Recommendations</h4>
+                            <ul id="overviewRecommendations">
+                                <li>Implement week-1 intervention program with gamified onboarding to address the critical 30.4% first-week drop-off</li>
+                                <li>Develop YouTube-style learning experiences with short-form, engaging video content to match platform preferences</li>
+                                <li>Launch comprehensive gamification system with points, badges, and leaderboards as the top-requested feature</li>
+                                <li>Create mentor-matching program and peer study groups to address the high demand for social learning features</li>
+                                <li>Build predictive analytics for early intervention using engagement patterns to identify at-risk learners</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>Learning Funnel Analysis</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="funnelChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Top Dropout Reasons</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="dropoffReasonsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Platform Usage Distribution</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="platformDistributionChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Completion Rates by Age Group</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="ageCompletionChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Behavior Tab -->
+            <div id="behavior" class="tab-content">
+                <!-- Key Insights & Recommendations Section -->
+                <div class="key-insights-section">
+                    <h2>User Behavior Insights & Recommendations</h2>
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <h4>🔍 Behavioral Patterns</h4>
+                            <ul id="behaviorInsights">
+                                <li>Progressive abandonment pattern: Steady 20% drop-off at each stage suggests systematic engagement issues rather than random churn</li>
+                                <li>Motivation trumps difficulty: 'Lost interest' (19) and 'lack of motivation' (17) outweigh content difficulty (2), indicating engagement design problems</li>
+                                <li>Social learning demand: 23 requests for mentorship and 12 for networking show strong appetite for community-driven learning</li>
+                                <li>Mobile-first expectation: 3.8/5 importance rating for mobile access reflects modern learner expectations for anywhere-anytime learning</li>
+                            </ul>
+                        </div>
+                        <div class="insight-card">
+                            <h4>🚀 Behavioral Interventions</h4>
+                            <ul id="behaviorRecommendations">
+                                <li>Deploy progressive engagement mechanics that intensify at each funnel stage to counter systematic drop-offs</li>
+                                <li>Redesign content delivery with micro-engagements, interactive elements, and bite-sized learning modules</li>
+                                <li>Establish peer-to-peer learning networks and mentor matching systems to satisfy social learning needs</li>
+                                <li>Optimize mobile learning experience with offline capabilities and push notification strategies</li>
+                                <li>Implement behavioral trigger systems that activate based on user engagement patterns and learning velocity</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-grid">
+                    <div class="chart-card full-width">
+                        <h3>Drop-off Timeline Heatmap</h3>
+                        <div class="heatmap-container">
+                            <div class="heatmap-legend">
+                                <span>Low</span>
+                                <div class="heatmap-gradient"></div>
+                                <span>High</span>
+                            </div>
+                            <div class="heatmap-grid" id="dropoffHeatmap"></div>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Learning Preferences by Occupation</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="occupationPreferencesChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Engagement Factor Impact</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="engagementFactorsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Platform Insights Tab -->
+            <div id="insights" class="tab-content">
+                <div class="insights-grid">
+                    <div class="chart-card">
+                        <h3>Most Desired Features</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="desiredFeaturesChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Platform Performance Metrics</h3>
+                        <div class="table-container">
+                            <table id="platformTable" class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th data-sort="platform">Platform <span class="sort-icon">↕</span></th>
+                                        <th data-sort="users">Users <span class="sort-icon">↕</span></th>
+                                        <th data-sort="market_share">Market Share <span class="sort-icon">↕</span></th>
+                                        <th data-sort="engagement">Engagement <span class="sort-icon">↕</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="platformTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="insights-summary">
+                    <div class="summary-card">
+                        <h4>Key Insights</h4>
+                        <ul>
+                            <li>YouTube educational content dominates with 45.7% market share</li>
+                            <li>30.4% of learners drop out within the first week</li>
+                            <li>Gamification is the most requested feature (54.3% of respondents)</li>
+                            <li>Mobile learning importance rated 3.8/5 by users</li>
+                        </ul>
+                    </div>
+                    <div class="summary-card">
+                        <h4>Recommendations</h4>
+                        <ul>
+                            <li>Implement gamification elements to boost engagement</li>
+                            <li>Focus on first-week retention strategies</li>
+                            <li>Enhance mentor and study group features</li>
+                            <li>Improve mobile learning experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Industry Research Tab -->
+            <div id="research" class="tab-content">
+                <div class="research-header">
+                    <h2>Industry Research & Benchmarks</h2>
+                    <p>Comprehensive data from publicly available research and industry studies</p>
+                </div>
+                <div class="charts-grid">
+                    <div class="chart-card">
+                        <h3>MOOC Completion Rate Benchmarks</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="completionBenchmarkChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Retention: Online vs Traditional</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="retentionComparisonChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>EdTech Market Growth Trends</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="marketTrendsChart"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h3>Engagement Enhancement Statistics</h3>
+                        <div class="chart-container" style="position: relative; height: 400px;">
+                            <canvas id="engagementStatsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="research-insights">
+                    <div class="benchmark-card">
+                        <h4>Key Industry Statistics</h4>
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <span class="stat-value">12.6%</span>
+                                <span class="stat-label">MOOC Median Completion</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">0.7-52.1%</span>
+                                <span class="stat-label">MOOC Range</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">85-100%</span>
+                                <span class="stat-label">Cohort-Based Courses</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-value">70-90%</span>
+                                <span class="stat-label">Microlearning Success</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Community Insights Tab -->
+            <div id="community" class="tab-content">
+                <div class="community-header">
+                    <h2>Community Insights & Discussions</h2>
+                    <p>Real discussions and articles from Reddit, blogs, and news sources with comprehensive analysis</p>
+                </div>
+                
+                <div class="community-section">
+                    <h3>📱 Reddit Discussions</h3>
+                    <div class="discussion-grid" id="redditDiscussions">
+                        <!-- Reddit posts will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="community-section">
+                    <h3>📚 Blog Articles & Research</h3>
+                    <div class="article-grid" id="blogArticles">
+                        <!-- Blog articles will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="community-section">
+                    <h3>📰 News & Industry Reports</h3>
+                    <div class="news-grid" id="newsArticles">
+                        <!-- News articles will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-spinner"></div>
+        <p>Updating data...</p>
+    </div>
+
+    <!-- Tooltip -->
+    <div id="tooltip" class="tooltip hidden"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
